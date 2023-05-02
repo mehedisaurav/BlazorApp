@@ -1,3 +1,4 @@
+using BlazorSaleOrderApp.Server.AppDbContext;
 using BlazorSaleOrderApp.Shared;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,15 +14,18 @@ namespace BlazorSaleOrderApp.Server.Controllers
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly BlazorAppDbContext _context;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, BlazorAppDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            var products  = _context.Products.ToList();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
