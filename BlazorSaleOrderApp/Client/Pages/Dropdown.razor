@@ -2,17 +2,14 @@
 @using System.ComponentModel
 @using System.Globalization
 
-<div class="col-md-12">
-    <div class="row">
-        <span>@Title</span>
-        <select class="form-control" @onchange="@OnSelectionChanged">
-            @foreach (var item in Items)
-            {
-                <option value="@item.Id"> @item.Name </option>
-            }
-        </select>
-    </div>
-</div>
+<span>@Title</span>
+<select class="form-control" @onchange="@OnSelectionChanged">
+     <option value="0">--Select--</option>
+    @foreach (var item in Items)
+    {
+        <option value="@item.Id"> @item.Name </option>
+    }
+</select>
 
 @code {
     [Parameter]
