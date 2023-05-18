@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSaleOrderApp.Server", "Server\BlazorSaleOrderApp.Server.csproj", "{59447328-BB8A-4F68-89A7-1A573792BF99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorSaleOrderApp.Server", "Server\BlazorSaleOrderApp.Server.csproj", "{59447328-BB8A-4F68-89A7-1A573792BF99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSaleOrderApp.Client", "Client\BlazorSaleOrderApp.Client.csproj", "{1AEADC20-5337-41D7-8BA4-FAAF1B9BC4B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorSaleOrderApp.Client", "Client\BlazorSaleOrderApp.Client.csproj", "{1AEADC20-5337-41D7-8BA4-FAAF1B9BC4B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSaleOrderApp.Shared", "Shared\BlazorSaleOrderApp.Shared.csproj", "{A86BFF90-10E4-4B5D-B146-E6874C21D824}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorSaleOrderApp.Shared", "Shared\BlazorSaleOrderApp.Shared.csproj", "{A86BFF90-10E4-4B5D-B146-E6874C21D824}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

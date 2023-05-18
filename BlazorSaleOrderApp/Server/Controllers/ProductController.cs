@@ -1,4 +1,6 @@
 ﻿using BlazorSaleOrderApp.Server.AppDbContext;
+using BlazorSaleOrderApp.Server.Models;
+using BlazorSaleOrderApp.Shared.Dto.Common;
 using BlazorSaleOrderApp.Shared.Dto.ProductDto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,8 +17,10 @@ namespace BlazorSaleOrderApp.Server.Controllers
         {
             _context = context;
         }
-        [HttpGet]
-        public ActionResult<ICollection<ProductDto>> Get()
+
+
+        [HttpGet("GetProducts")]
+        public ActionResult<ICollection<ProductDto>> GetProducts()
         {
             return Ok(_context.Products.Select(x => new ProductDto
             {
@@ -28,7 +32,7 @@ namespace BlazorSaleOrderApp.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ProductDto> Get(int id) 
+        public async Task<ProductDto> Get(int? id) 
         {
             if (id == 0)
             {
@@ -49,6 +53,55 @@ namespace BlazorSaleOrderApp.Server.Controllers
                     Quantity = product.Quantity
                 };
             }
+        }
+
+        [HttpPost]
+        public async Task<bool> Post(ProductDto product)
+        {
+            _context.Products.Add(new Product
+            {
+                Name = product.Name,
+                Price = product.Price,
+                Quantity = product.Quantity
+            });
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        [HttpPut]
+        public async Task<bool> Put(ProductDto product)
+        {
+            _context.Products.Update(new Product
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                Quantity = product.Quantity
+            });
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<bool> Delete(int id)
+        {
+            _context.Products.Remove( await _context.Products.FirstOrDefaultAsync(x => x.Id == id)); 
+            _context.SaveChanges();
+            return true;
+        }
+
+        [HttpGet("GetProductSelectList")]
+        public async Task<List<SelectModel>> GetProductSelectList()
+        {
+            return _context.Products.Select(x => new SelectModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                //Price = x.Price,
+                //Quantity = x.Quantity
+            }).ToList();
         }
     }
 }

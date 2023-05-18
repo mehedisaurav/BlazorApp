@@ -1,0 +1,37 @@
+﻿@page "/order"
+@using BlazorSaleOrderApp.Shared.Dto.Common
+@using System.ComponentModel
+@inject HttpClient Http
+
+
+@code {
+    [TypeConverter(typeof(SelectModelListTypeConverter))]
+    private List<SelectModel> Lists = new List<SelectModel>();
+    private bool HasLists = false;
+    private int SelectedItemId = 0;
+    protected override async Task OnInitializedAsync()
+    {
+        Lists = await Http.GetFromJsonAsync<List<SelectModel>>("api/Product/GetProductSelectList");
+        HasLists = true;
+        StateHasChanged();
+    }
+    private void HandleSelectedItemChanged(int selectedItemId)
+    {
+        SelectedItemId = selectedItemId;
+        StateHasChanged();
+    }
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+
+
+        @if (HasLists)
+        {
+            <div class="col-md-4">
+                <Dropdown Items="Lists" SelectedItem="SelectedItemId" SelectedItemChanged="HandleSelectedItemChanged"></Dropdown>
+            </div>
+        }
+    </div>
+</div>

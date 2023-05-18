@@ -1,0 +1,100 @@
+﻿@using BlazorSaleOrderApp.Shared.Dto.ProductDto
+@inject HttpClient Http
+
+
+<div class="modal fade show" id="myModal"
+     style="display:block; background-color: rgba(10,10,10,.8);"
+     aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" @onclick="RaiseChildAction">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Name</label>
+                    <input type="text" @bind="@Model.Name">
+                </div>
+                <div>
+                    <label>Price</label>
+                    <input type="text" @bind="@Model.Price">
+                </div>
+                <div>
+                    <label>Quantity</label>
+                    <input type="text" @bind="@Model.Quantity">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" @onclick="Submit">@SubmitType</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public ProductDto Model { get; set; } = new ProductDto();
+
+    bool isModalShow = false;
+    [Parameter]
+    public string SubmitType { get; set; }
+    int id;
+
+    [Parameter]
+    public EventCallback OnChildAction { get; set; }
+    private async Task RaiseChildAction()
+    {
+        await OnChildAction.InvokeAsync();
+    }
+
+    [Parameter]
+    public EventCallback OnModalShow { get; set; }
+
+    [Parameter]
+    public EventCallback<ProductDto> OnValueChanged { get; set; }
+
+
+    public void Change()
+    {
+
+    }
+
+    public async Task<ProductDto> Edit(int id = 0)
+    {
+        SubmitType = "Update";
+
+        Model = await Http.GetFromJsonAsync<ProductDto>("api/Product/" + id);
+        //await OnModalShow.InvokeAsync();
+        return Model;
+        //await OnValueChanged.InvokeAsync(Model);
+
+    }
+
+    public async Task Submit()
+    {
+        if (Model.Id == 0)
+        {
+            await Http.PostAsJsonAsync("api/Product", Model);
+        }
+        else
+        {
+            await Http.PutAsJsonAsync("api/Product", Model);
+
+        }
+        await OnChildAction.InvokeAsync();
+    }
+    private async Task Create()
+    {
+
+        await OnChildAction.InvokeAsync();
+    }
+
+    private async void Delete(int id)
+    {
+        await Http.DeleteAsync("api/Product/" + id);
+
+        await OnChildAction.InvokeAsync();
+    }
+
+}
